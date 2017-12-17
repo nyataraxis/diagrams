@@ -1,0 +1,31 @@
+.tree-node {
+	
+}
+
+.tree-node_item {
+	
+	stroke: green;
+	stroke-width: 4;
+	fill: yellow;
+}
+
+.tree-node_item:hover {
+	stroke: yellow;
+	fill: green;
+}
+
+.tree-node_item:active {
+
+	stroke: green;
+}
+.polyline {
+	fill: rgba(255,255,255,0);
+	stroke: red;
+	stroke-width:4;
+}
+
+.tree-link {
+	stroke: blue; 
+	stroke-width: 5;
+	fill: none;
+}
