@@ -6,8 +6,8 @@ class NodeStore {
 		show: false,
 		title: '',
 		nodeId: 0,
-		xCoord: 0,
-		yCoord: 0,
+		xCoord: 100,
+		yCoord: 100,
 		linkTo: {},
     	
     	});
