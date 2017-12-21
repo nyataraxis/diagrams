@@ -50,7 +50,7 @@ class TreeStore {
         	this.collapseSubTree(curNode);
         }
         else {
-        	this.expandSubTree(curNode);
+        	this.expandSubTree(curNode, curNode);
         }
     }
 
@@ -66,35 +66,35 @@ class TreeStore {
     	
     }
 
-    expandSubTree(node){
-        node.nodeExpand();
+    expandSubTree(node, rootN){
+        node.nodeExpand(rootN);
         this.linksTree[node.id].map((item, ind)=>{
-        	item.makeVisible();
+        	item.makeVisible(rootN);
         	let endNode = this.nodesTree.find(i=>(i.id==item.endId));
-            endNode.makeVisible();
+            endNode.makeVisible(rootN);
         	if(endNode.expanded){
-        		this.expandSubTree(endNode);
+        		this.expandSubTree(endNode, rootN);
         	}
         })
     }
 
     collapseSubTree(node){
-    	node.nodeCollapse();
+    	node.nodeCollapse(node);
     	this.linksTree[node.id].map((item,ind) => {
-    		item.makeHidden();
+    		item.makeHidden(node);
     		let endNode = this.nodesTree.find(i => (i.id == item.endId));
-    		endNode.makeHidden();
-    		this.hideSubTree(endNode);
+    		endNode.makeHidden(node);
+    		this.hideSubTree(endNode, node);
 
     	})
     }
 
-    hideSubTree(node){
+    hideSubTree(node, rootN){
         this.linksTree[node.id].map((item,ind) =>{
-    		item.makeHidden();
+    		item.makeHidden(rootN);
     		let endNode = this.nodesTree.find(i => (i.id == item.endId));
-    		endNode.makeHidden();
-    		this.hideSubTree(endNode);
+    		endNode.makeHidden(rootN);
+    		this.hideSubTree(endNode, rootN);
     	})
     }
 
@@ -125,7 +125,7 @@ class TreeStore {
     		
     	});
     }
-    pushNodeWithLinksToState(nodeId, tree, minY, maxY){
+    pushNodeWithLinksToState(nodeId, tree, minY, maxY/*, parentY*/){
 
         let node = tree[nodeId];
         
@@ -141,7 +141,9 @@ class TreeStore {
     		nodeX: nodX,
     		nodeY: nodY,
     		minY: minY,
-    		maxY: maxY
+    		maxY: maxY/*,
+    		parentX: node.depth ? (node.depth-1)*this.stepWidth : null,
+    		parentY: parentY*/
     	};
 
     	let succCount = node.linksTo ? node.linksTo.length : 0;
@@ -162,8 +164,10 @@ class TreeStore {
 	    			show: true,
 	    			clickable: true,
 	    			depth: child.depth,
+                    /*parentX: this.offX+(node.depth)*this.stepWidth,
+                    parentY: (minY+maxY)/2,*/
+	    			maxY: maxY,
 	    			minY: minY,
-	    			maxY: maxY
     			};
 
 	    		let nodes = node.onionArr.map((it, ind) => {
@@ -173,6 +177,7 @@ class TreeStore {
 	    			let minNY = ind*offY + minY;
 	    			let maxNY = (ind+1)*offY + minY;
 	    			let nX = this.offX + (node.depth+1)*this.stepWidth;
+
 	    			let nY = (minNY + maxNY)/2;
 	    			console.log(elem);
 	    			let curOniProto = {
@@ -185,6 +190,8 @@ class TreeStore {
 	                    nodeY: nY,
 	                    minY: minNY,
 	                    maxY: maxNY,
+	                    /*parentX: this.offX+(node.depth)*this.stepWidth,
+	                    parentY: (minY+maxY)/2,*/
 	    			isOnionSibling: true
 	    			};
 
@@ -204,7 +211,7 @@ class TreeStore {
 	    			this.linksTree[curOniProto.id].push(oniRootLink);
 
 	    			});
-	    		    this.pushNodeWithLinksToState(child.id, tree, minY, maxY);
+	    		    this.pushNodeWithLinksToState(child.id, tree, minY, maxY/*, childProto.parentY*/);
 	    		} else {
                     let nodes = node.linksTo.map((it,ind) => {
 
@@ -223,14 +230,16 @@ class TreeStore {
 	                        nodeX: nX,
 	                        nodeY: nY,
 	                        minY: minNY,
-	                        maxY: maxNY
+	                        maxY: maxNY/*,
+		                    parentX: this.offX+(node.depth)*this.stepWidth,
+		                    parentY: (minY+maxY)/2*/
                     	}
                     	let succNodeLink = new LinkStore();
                     	succNodeLink.initLink(nodeProto, succProto);
 
                     	this.linksTree[node.id].push(succNodeLink); 
 
-                    	this.pushNodeWithLinksToState(it, tree, minNY, maxNY);
+                    	this.pushNodeWithLinksToState(it, tree, minNY, maxNY/*, succProto.parentY*/);
                     })
 	    		}
     		}

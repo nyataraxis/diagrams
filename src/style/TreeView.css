@@ -1,5 +1,18 @@
 .tree-node {
-	
+	-webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.tree-node_label{
+	opacity:1;
+	-webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
 }
 
 .tree-node_item {
@@ -7,6 +20,12 @@
 	stroke: green;
 	stroke-width: 4;
 	fill: yellow;
+	opacity: 1;
+	-webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
 }
 
 .tree-node_item:hover {
@@ -15,12 +34,21 @@
 }
 
 .tree-node_item:active {
-
+    
 	stroke: green;
+
+}
+
+#hidden-node{
+    
+}
+
+#hidden-link{
+
 }
 
 #hidden{
-	display: none;
+	opacity: 0;
 }
 .polyline {
 	fill: rgba(255,255,255,0);
@@ -29,7 +57,14 @@
 }
 
 .tree-link {
+	opacity: 1;
 	stroke: blue; 
 	stroke-width: 5;
 	fill: none;
+	-webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+    
 }

@@ -16,8 +16,14 @@ class NodeStore {
     	    isOnionSibling: false,
     	    minY: 0,
     	    maxY: 0,
+    	    parentX: 0,
+    	    parentY: 0,
+
             nodeX: 0,
-            
+            /*get transor(){
+            	let trans = this.show ? `translate(${this.nodeX-this.parentX})` : `translate(${this.parentX-this.nodeX})`;
+            	return { webkitTransformOrigin: `${this.parentX} ${this.parentY} 0`, webkitTransform: `${trans}` }
+            },*/
             get styleName(){
             	if (this.show){
             		return '';
@@ -25,12 +31,18 @@ class NodeStore {
             		return 'hidden';
             	}
             },
-
+            get curX(){
+            	return (this.show ? this.nodeX : this.parentX);
+            },
+            get curY(){
+                
+            	return (this.show ? this.nodeY : this.parentY);
+            },
             get nodeY(){
                return (this.maxY+this.minY)/2;
             },
             get nodeRend(){
-                return (<TreeNode nodeId={this.id} styleName={this.styleName} clickable={this.clickable} circleX={this.nodeX} circleY={this.nodeY} circleR={10} label={this.name} />);
+                return (<TreeNode nodeId={this.id} styleName={this.styleName} clickable={this.clickable} circleX={this.curX} circleY={this.curY} circleR={10} label={this.name} />);
             }
     	});
 	}
@@ -39,21 +51,32 @@ class NodeStore {
         
 	}
 
-    nodeExpand(){
+    nodeExpand(node){
+    	
+    	this.parentX = node.nodeX;
+    	this.parentY = node.nodeY;
     	this.expanded = true;
+
     }
 
-    nodeCollapse(){
+    nodeCollapse(node){
+    	this.parentX = node.nodeX;
+    	this.parentY = node.nodeY;
     	this.expanded = false;
     }
 
 	toggleVisibility(){
+
 		this.show = !this.show;
 	}
-	makeVisible(){
+	makeVisible(node){
+		this.parentX = node.nodeX;
+    	this.parentY = node.nodeY;
 		this.show = true;
 	}
-	makeHidden(){
+	makeHidden(node){
+		this.parentX = node.nodeX;
+    	this.parentY = node.nodeY;
 		this.show = false;
 	}
 	initNode(node){
@@ -68,6 +91,8 @@ class NodeStore {
 		this.linksTo = node.linksTo;
 		this.linksArr = node.linksArr;
 		this.isOnionSibling = node.isOnionSibling ? node.isOnionSibling : false;
+		this.parentX = node.parentX ? node.parentX : 0;
+		this.parentY = node.parentX ? node.parentY : 0;
 	}
     changeNodeCoord(newCoordX, newCoordY) {
         this.xCoord = newCoordX;

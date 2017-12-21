@@ -21,8 +21,8 @@ class TreeNod extends Component {
 		
 		return (
 			<svg>
-			    <circle id={styleName} className="tree-node_item" cx={circleX} cy={circleY} r={circleR} onClick={clickable && this.onClick(key)}/>
-                <text x={circleX-30} y={circleY-10} id={styleName} fontFamily="sans-serif" fontSize="20px" fill="red">{label}</text>
+			    <circle id={styleName} className="tree-node_item" cx={circleX} cy={circleY} r={circleR} onClick={clickable ? this.onClick(key) : undefined}/>
+                <text x={circleX-20} y={circleY-20} className="tree-node_label" id={styleName} fontFamily="sans-serif" fontSize="11px" fill="red">{label}</text>
                            
            </svg>
 

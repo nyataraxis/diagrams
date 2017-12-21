@@ -15,11 +15,29 @@ class LinkStore {
             endX: 0,
             startY: 0,
             endY: 0,
+            expandX: 0,
+            expandY: 0,
+
+            get curEndX(){
+                return (this.show ? this.endX : this.expandX);
+
+            },
+            get curStartX(){
+                return (this.show ? this.startX : this.expandX);
+            },
+            get curEndY(){
+                return (this.show ? this.endY : this.startY);
+            },
+            get curStartY(){
+                return (this.show ? this.startY : this.expandY);
+            },
+            get trans(){
+                },
             get styler() {
                 return this.show? '':'hidden';
             },
             get linkRend(){
-                return (<TreeLink styler={this.styler} key={this.rootId+"-"+this.endId} startX={this.startX} endX={this.endX} startY={this.startY} endY={this.endY} />);
+                return (<TreeLink style={this.trans} styler={this.styler} key={this.rootId+"-"+this.endId} startX={this.curStartX} endX={this.curEndX} startY={this.curStartY} endY={this.curEndY} />);
             }
         });
     }
@@ -37,11 +55,16 @@ class LinkStore {
         this.show = !this.show;
     }
 
-    makeVisible(){
+    makeVisible(node){
+        this.expandX = node.nodeX;
+        this.expandY = node.nodeY;
         this.show = true;
+
     }
 
-    makeHidden(){
+    makeHidden(node){
+        this.expandX = node.nodeX;
+        this.expandY = node.nodeY;
         this.show = false;
     }
 }
