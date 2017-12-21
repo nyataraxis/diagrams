@@ -10,12 +10,14 @@ class NodeStore {
 		    id: 0,
         	name: '',
         	show: true,
+        	expanded: true,
     	    clickable: false,
     	    depth: 0,
     	    isOnionSibling: false,
     	    minY: 0,
     	    maxY: 0,
             nodeX: 0,
+            
             get styleName(){
             	if (this.show){
             		return '';
@@ -23,6 +25,7 @@ class NodeStore {
             		return 'hidden';
             	}
             },
+
             get nodeY(){
                return (this.maxY+this.minY)/2;
             },
@@ -35,8 +38,23 @@ class NodeStore {
 	nodeClicked(){
         
 	}
+
+    nodeExpand(){
+    	this.expanded = true;
+    }
+
+    nodeCollapse(){
+    	this.expanded = false;
+    }
+
 	toggleVisibility(){
 		this.show = !this.show;
+	}
+	makeVisible(){
+		this.show = true;
+	}
+	makeHidden(){
+		this.show = false;
 	}
 	initNode(node){
 		this.id = node.id;

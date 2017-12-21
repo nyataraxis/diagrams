@@ -10,6 +10,7 @@ class LinkStore {
             rootId: 0,
             endId: 0,
             show: true,
+            expanded: true,
             startX: 0,
             endX: 0,
             startY: 0,
@@ -32,7 +33,16 @@ class LinkStore {
         this.endY = nodeTo.nodeY;
     }
     toggleVisibility(){
+
         this.show = !this.show;
+    }
+
+    makeVisible(){
+        this.show = true;
+    }
+
+    makeHidden(){
+        this.show = false;
     }
 }
 

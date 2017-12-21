@@ -43,13 +43,63 @@ class TreeStore {
     printTest(){
     	console.log("successss");
     }
+
+    nodeClicked(nodeId){
+        let curNode = this.nodesTree.find(i=>(i.id==nodeId));
+        if (curNode.expanded) {
+        	this.collapseSubTree(curNode);
+        }
+        else {
+        	this.expandSubTree(curNode);
+        }
+    }
+
     toggleVision(nodeId){
+    	
     	let locked = [];
-    	this.linksTree[nodeId].map((item,ind)=>{
-            item.toggleVisibility();
-            this.toggleVisibility(item.endId,locked);
+
+    	this.linksTree[nodeId].map(
+    		(item,ind)=>{
+              item.toggleVisibility();
+              this.toggleVisibility(item.endId,locked);
     	});
     	
+    }
+
+    expandSubTree(node){
+        node.nodeExpand();
+        this.linksTree[node.id].map((item, ind)=>{
+        	item.makeVisible();
+        	let endNode = this.nodesTree.find(i=>(i.id==item.endId));
+            endNode.makeVisible();
+        	if(endNode.expanded){
+        		this.expandSubTree(endNode);
+        	}
+        })
+    }
+
+    collapseSubTree(node){
+    	node.nodeCollapse();
+    	this.linksTree[node.id].map((item,ind) => {
+    		item.makeHidden();
+    		let endNode = this.nodesTree.find(i => (i.id == item.endId));
+    		endNode.makeHidden();
+    		this.hideSubTree(endNode);
+
+    	})
+    }
+
+    hideSubTree(node){
+        this.linksTree[node.id].map((item,ind) =>{
+    		item.makeHidden();
+    		let endNode = this.nodesTree.find(i => (i.id == item.endId));
+    		endNode.makeHidden();
+    		this.hideSubTree(endNode);
+    	})
+    }
+
+    showSubTree(nodeId){
+
     }
     toggleVisibility(nodeId, lockedId){
     	let lock=lockedId;
@@ -58,8 +108,11 @@ class TreeStore {
         let counter=this.linksTree[nodeId].length;
 
     	this.linksTree[nodeId].map((item, ind)=>{
+
     		if (curNode.isOnionSibling) {
+
     			item.toggleVisibility();
+    			
     			if(lock.includes(item.endId)){} else {
     				console.log('hui');
     				lock.push(item.endId);

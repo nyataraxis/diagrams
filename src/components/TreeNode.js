@@ -14,7 +14,7 @@ class TreeNod extends Component {
 	handleClick(data, e){
 		let nodeId = data.props.nodeId;
         console.log("nodeId="+nodeId);
-        data.props.treeStore.toggleVision(nodeId, false);
+        data.props.treeStore.nodeClicked(nodeId);
 	}
 	render(){
 		const {circleX, circleY, circleR, key, label, nodeId, styleName, clickable} = this.props;
