@@ -6,62 +6,6 @@ import treeStore from '../stores/TreeStore';
 import '../style/TreeView.css';
 
 
-/*const rawNodes = [
-    {
-    	name: "rootname",
-    	linkTo: [2,6]
-    },
-    {
-    	name: "mainChild",
-    	linkTo: [3,4]
-    },
-    {
-    	name: "child sec lecelname",
-    	linkTo: [5]
-    },
-    {
-    	name: "surprize onion sec",
-    	linkTo: [5]
-    },
-    {
-    	name: "onionrootthird",
-    	linkTo: [7,8,9]
-    },
-    {
-    	name: "oh boy here we go its a second level",
-    	linkTo: [10]
-    },
-    {
-    	name: "maybeonion",
-    	linkTo: [10]
-    },
-    {
-    	name: "onionion",
-    	linkTo: [10]
-    },
-    {
-    	name: "last",
-    	linkTo: [10]
-    },
-    {
-    	name:"rootiwe"
-    }
-    
-];
-
-function recursiveRand(ind, itemArr, depth, initX, initY){
-	console.log(itemArr[ind]);
-    let links = itemArr[ind].linkTo ? itemArr[ind].linkTo.length : 0;
-	if(links > 0){
-		let newXInit = initX + 100;
-		let newYdiff = Math.round(200/links);
-		let depth = depth+1;
-		itemArr[ind].linkTo.map((linkItem, index) => {
-			recursiveRand(linkItem-1, itemArr, depth, newXInit, (initY-newYdiff*index));
-		});
-	}
-	return(<TreeNode key={ind*100} circleX={initX} circleY={initY} circleR={7} label={itemArr[ind].name} />)
-}*/
 const treeData = [
   {
   	id: 1,
@@ -119,6 +63,64 @@ const treeData = [
   }
 ];
 
+const treeDatas = [
+  {
+  	id: 0,
+    name: "root",
+    depth: 0,
+    linksTo: [1,2]
+  },
+  {
+    id: 1,
+    name: "firstlev onion child",
+    depth: 1,
+    linksTo: [3],
+    onionLinksTo: [3,4],
+  },
+  {
+    id: 2,
+    name: "firstlev chil2",
+    depth: 1,
+    linksTo:[6]
+  },
+  {
+    id: 3,
+    onionArr: [7, 8],
+
+    name: "onionPair",
+    linksTo: [5],
+    //onionChild:[6],
+    depth: 2
+  },
+  {
+    id: 4,
+    name: "onionPair",
+    //linksTo: [6],
+    //onionChild:[6],
+    depth: 2
+  },
+  {
+  	id: 5,
+  	name: "onionchild",
+  	depth: 4
+  },
+  {
+    id: 6,
+    name: "onemoreChild",
+    depth: 2
+  },
+  {
+   		id: 7,
+    	name: "oni",
+    	depth: 3
+  },
+  {
+    	id: 8,
+	  name: "on",
+	  depth: 3
+   	}
+];
+
 function recNode(nodeId, arr, minY, maxY, stepWidth, retArr){
     let node = arr[nodeId-1];
     
@@ -137,22 +139,23 @@ function recNode(nodeId, arr, minY, maxY, stepWidth, retArr){
         	let offY = Math.round((maxY-minY)/onionCount);
     	    let minNY = ind*offY+minY;
     	    let maxNY = (ind+1)*offY+minY;
-    	    let nX =(node.depth+1)*stepWidth;
+    	    let nX = 30 + (node.depth+1)*stepWidth;
     	    let nY = (minNY+maxNY)/2;
             
         	let curOni = {
         		id: it.id,
             	name: it.name,
-            	show: false,
+            	show: true,
+            	clickable: false,
             	depth: node.depth+1,
                 nodeX: nX,
                 nodeY: nY,
                 linksTo: node.linksTo,
                 nodeRend: <TreeNode key={it.id} circleX={nX} circleY={nY} circleR={10} label={it.name} />,
-			    linksRend: [(<TreeLink key={it.id} startX={nX} endX={(node.depth+2)*stepWidth} startY={nY} endY={(minY+maxY)/2} />)]
+			    linksRend: [(<TreeLink key={it.id} startX={nX} endX={30+(node.depth+2)*stepWidth} startY={nY} endY={(minY+maxY)/2} />)]
         	};
             
-            let onionLink = <TreeLink key={it.id} startX={node.depth*stepWidth} endX={nX} startY={(minY+maxY)/2} endY={nY} />;
+            let onionLink = <TreeLink key={it.id} startX={30+node.depth*stepWidth} endX={nX} startY={(minY+maxY)/2} endY={nY} />;
 		    onionLinksRend.push(onionLink);
         	onionLinksTo.push(it.id);
         	retArr.push(curOni);
@@ -164,22 +167,20 @@ function recNode(nodeId, arr, minY, maxY, stepWidth, retArr){
     	let offY = Math.round((maxY-minY)/nodeCount);
     	let minNY = ind*offY+minY;
     	let maxNY = (ind+1)*offY+minY;
-        let linkRend = <TreeLink key={it} startX={node.depth*stepWidth} endX={(node.depth+1)*stepWidth} startY={(minY+maxY)/2} endY={(minNY+maxNY)/2} />
+        let linkRend = <TreeLink key={it} startX={30+node.depth*stepWidth} endX={30+(node.depth+1)*stepWidth} startY={(minY+maxY)/2} endY={(minNY+maxNY)/2} />
 		linksToRend.push(linkRend);		
     	console.log("it: "+it+" minNY "+minNY+" maxNY: "+maxNY+" minY: "+minY+" maxY: "+maxY);
         recNode(it, arr, minNY, maxNY, stepWidth, retArr);
       });
-      }/*
-      let onions = node.onionLinksTo.map((it, ind) => {
-      	let offY=maxY/
-      })	*/
+      }
     }
-    let nX = node.depth*stepWidth;
+    let nX = 30+node.depth*stepWidth;
     let nY = (minY+maxY)/2;
     let retNode = {
     	id: node.id,
     	name: node.name,
-    	show: false,
+    	show: true,
+    	clickable: false,
     	depth: node.depth,
         nodeX: nX,
         nodeY: nY,
@@ -192,6 +193,75 @@ function recNode(nodeId, arr, minY, maxY, stepWidth, retArr){
 }
 
 
+
+
+
+const TreeView = observer(class TreeView extends Component {
+	constructor(props){
+		super(props);	
+	}
+	componentWillMount(){
+        const offX = 30;
+	    const nodeRadius = 10;
+	    const maxHeight = 600;
+	    const maxWidth = 800;
+		
+        treeStore.initiateTree(offX, nodeRadius, maxHeight, maxWidth, treeDatas);
+    }
+    handleClickX(e){
+      let xNew = treeStore.curNode.xCoord+10;
+      treeStore.curNode.changeNodeCoord(xNew, treeStore.curNode.yCoord);
+    }
+    handleClickY(e){
+      let yNew = treeStore.curNode.yCoord+10;
+      treeStore.curNode.changeNodeCoord(treeStore.curNode.xCoord, yNew);
+    }
+    handleClickAdd(e){
+    	treeStore.renderNewNode();
+    }
+	render(){
+		const nodeArr = [];
+		console.log(treeStore);
+		recNode(1, treeData, 0, 500, 150, nodeArr);
+		const stringNodes = JSON.stringify(treeStore.nodesTree);
+		
+		const stringLinks = JSON.stringify(treeStore.linksTree);
+		return (
+			<div>
+			  <button onClick={this.handleClickX.bind(this)}>X++</button>
+              <button onClick={this.handleClickY.bind(this)}>Y++</button>
+              <button onClick={this.handleClickAdd.bind(this)}>new node</button>
+              <p>{stringNodes}</p>
+              <p>{stringLinks}</p>
+            <svg width={800} height={600} id="svg-list-new" className="tree-node">
+              {nodeArr.map((item, index) => {return(item.linksRend && item.linksRend.map((elem, val) => elem))})}
+              {nodeArr.map((item, index) => item.nodeRend)}
+              
+            </svg>
+            <svg width={800} height={600} id="svg-list-new" className="tree-node">
+
+              {treeStore.nodesTree.map((item, index) => {return item.nodeRend})}
+              {treeStore.linksTree.map((item,index)=> { 
+              	let links = item.map((it,i)=>it.linkRend);
+              	return links;
+              })}
+            </svg>
+            </div>
+		);
+	}
+});
+
+export default TreeView;
+/*
+      let onions = node.onionLinksTo.map((it, ind) => {
+      	let offY=maxY/
+      })	*/
+		/*const treeR = TreeRend(treeData);*/
+/*		const treeRaw = recursiveRand(0, rawNodes, 1, 300, 300);*/
+/*
+
+
+		const treeRight = TreeRendRight(nodeArr);
 function TreeRendRight(tree){
 	console.log(tree);
     let nodes = tree.map((item, index) => {
@@ -214,51 +284,6 @@ function TreeRendRight(tree){
 	return nodes;
 }
 
-
-
-
-const TreeView = observer(class TreeView extends Component {
-	constructor(props){
-		super(props);	
-	}
-	componentWillMount(){
-      treeStore.initiateTree();
-    }
-    handleClickX(e){
-      let xNew = treeStore.curNode.xCoord+10;
-      treeStore.curNode.changeNodeCoord(xNew, treeStore.curNode.yCoord);
-    }
-    handleClickY(e){
-      let yNew = treeStore.curNode.yCoord+10;
-      treeStore.curNode.changeNodeCoord(treeStore.curNode.xCoord, yNew);
-    }
-    handleClickAdd(e){
-    	treeStore.renderNewNode();
-    }
-	render(){
-		/*const treeR = TreeRend(treeData);*/
-		const nodeArr = [];
-		recNode(1, treeData, 0, 500, 100, nodeArr);
-		const treeRight = TreeRendRight(nodeArr);
-/*		const treeRaw = recursiveRand(0, rawNodes, 1, 300, 300);*/
-		return (
-			<div>
-			  <button onClick={this.handleClickX.bind(this)}>X++</button>
-              <button onClick={this.handleClickY.bind(this)}>Y++</button>
-              <button onClick={this.handleClickAdd.bind(this)}>new node</button>
-            
-            <svg width={600} height={600} id="svg-list-new" className="tree-node">
-              {nodeArr.map((item, index) => item.nodeRend)}
-              {nodeArr.map((item, index) => {return(item.linksRend && item.linksRend.map((elem, val) => elem))})}
-            </svg>
-            </div>
-		);
-	}
-});
-
-export default TreeView;
-
-/*
 
 const treeDataRec = [
   {
@@ -369,4 +394,61 @@ function TreeRend(tree){
 	});
 
 	return nodes;
+}*/
+
+/*const rawNodes = [
+    {
+    	name: "rootname",
+    	linkTo: [2,6]
+    },
+    {
+    	name: "mainChild",
+    	linkTo: [3,4]
+    },
+    {
+    	name: "child sec lecelname",
+    	linkTo: [5]
+    },
+    {
+    	name: "surprize onion sec",
+    	linkTo: [5]
+    },
+    {
+    	name: "onionrootthird",
+    	linkTo: [7,8,9]
+    },
+    {
+    	name: "oh boy here we go its a second level",
+    	linkTo: [10]
+    },
+    {
+    	name: "maybeonion",
+    	linkTo: [10]
+    },
+    {
+    	name: "onionion",
+    	linkTo: [10]
+    },
+    {
+    	name: "last",
+    	linkTo: [10]
+    },
+    {
+    	name:"rootiwe"
+    }
+    
+];
+
+function recursiveRand(ind, itemArr, depth, initX, initY){
+	console.log(itemArr[ind]);
+    let links = itemArr[ind].linkTo ? itemArr[ind].linkTo.length : 0;
+	if(links > 0){
+		let newXInit = initX + 100;
+		let newYdiff = Math.round(200/links);
+		let depth = depth+1;
+		itemArr[ind].linkTo.map((linkItem, index) => {
+			recursiveRand(linkItem-1, itemArr, depth, newXInit, (initY-newYdiff*index));
+		});
+	}
+	return(<TreeNode key={ind*100} circleX={initX} circleY={initY} circleR={7} label={itemArr[ind].name} />)
 }*/
