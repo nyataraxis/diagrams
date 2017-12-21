@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import TreeNode from './TreeNode';
 import TreeLink from './TreeLink';
-import { observer } from 'mobx-react';
+import { Provider, observer } from 'mobx-react';
 import treeStore from '../stores/TreeStore';
 import '../style/TreeView.css';
-
 
 const treeData = [
   {
@@ -227,26 +226,25 @@ const TreeView = observer(class TreeView extends Component {
 		
 		const stringLinks = JSON.stringify(treeStore.linksTree);
 		return (
+			<Provider treeState={treeStore}>
 			<div>
-			  <button onClick={this.handleClickX.bind(this)}>X++</button>
-              <button onClick={this.handleClickY.bind(this)}>Y++</button>
-              <button onClick={this.handleClickAdd.bind(this)}>new node</button>
-              <p>{stringNodes}</p>
-              <p>{stringLinks}</p>
-            <svg width={800} height={600} id="svg-list-new" className="tree-node">
-              {nodeArr.map((item, index) => {return(item.linksRend && item.linksRend.map((elem, val) => elem))})}
-              {nodeArr.map((item, index) => item.nodeRend)}
-              
-            </svg>
+			  
+            
             <svg width={800} height={600} id="svg-list-new" className="tree-node">
 
-              {treeStore.nodesTree.map((item, index) => {return item.nodeRend})}
+              
               {treeStore.linksTree.map((item,index)=> { 
               	let links = item.map((it,i)=>it.linkRend);
               	return links;
               })}
+
+              {treeStore.nodesTree.map((item, index) => {return item.nodeRend})}
             </svg>
+
+            <p>{stringNodes}</p>
+              <p>{stringLinks}</p>
             </div>
+            </Provider>
 		);
 	}
 });
@@ -260,7 +258,11 @@ export default TreeView;
 /*		const treeRaw = recursiveRand(0, rawNodes, 1, 300, 300);*/
 /*
 
-
+<svg width={800} height={600} id="svg-list-new" className="tree-node">
+              {nodeArr.map((item, index) => {return(item.linksRend && item.linksRend.map((elem, val) => elem))})}
+              {nodeArr.map((item, index) => item.nodeRend)}
+              
+            </svg>
 		const treeRight = TreeRendRight(nodeArr);
 function TreeRendRight(tree){
 	console.log(tree);

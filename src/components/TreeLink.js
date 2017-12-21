@@ -6,7 +6,7 @@ class TreeLink extends Component {
 		super(props)
 	}
 	render(){
-		const { startX, startY, endX, endY } = this.props;
+		const { startX, startY, endX, endY, styler } = this.props;
 		const lineStartX = parseInt(startX);
 		const lineStartY = parseInt(startY);
 		const lineEndX = parseInt(endX);
@@ -21,7 +21,7 @@ class TreeLink extends Component {
         const polylinePath = polylinePathStart + polylinePathEnd;
 		return (
 			
-  				<path d={polylinePath} className="tree-link" />
+  				<path d={polylinePath} id={styler} className="tree-link" />
          
 		);
 	}

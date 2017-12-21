@@ -1,21 +1,39 @@
 import React, { Component } from 'react';
 import '../style/TreeView.css';
+import TreeStore from '../stores/TreeStore';
+import { inject } from 'mobx-react';
 
-class TreeNode extends Component {
+
+class TreeNod extends Component {
 	constructor(props){
-		super(props)
+		super(props);
+		this.onClick = (data) => this.handleClick.bind(data, this);
+		this.props.treeStore.printTest();
+	}
+
+	handleClick(data, e){
+		let nodeId = data.props.nodeId;
+        console.log("nodeId="+nodeId);
+        data.props.treeStore.toggleVision(nodeId, false);
 	}
 	render(){
-		const {circleX, circleY, circleR, label} = this.props;
+		const {circleX, circleY, circleR, key, label, nodeId, styleName, clickable} = this.props;
 		
 		return (
 			<svg>
-			    <text x={circleX} y={circleY} fontFamily="sans-serif" fontSize="20px" fill="red">{label}</text>
-                <circle className="tree-node_item" cx={circleX} cy={circleY} r={circleR} />
+			    <circle id={styleName} className="tree-node_item" cx={circleX} cy={circleY} r={circleR} onClick={clickable && this.onClick(key)}/>
+                <text x={circleX-30} y={circleY-10} id={styleName} fontFamily="sans-serif" fontSize="20px" fill="red">{label}</text>
+                           
            </svg>
 
 		);
 	}
 }
+
+const TreeNode = inject(
+	stores => ({
+		treeStore: stores.treeState,
+	})
+)(TreeNod);
 
 export default TreeNode;

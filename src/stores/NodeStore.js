@@ -1,7 +1,7 @@
 import React from 'react';
 import TreeNode from '../components/TreeNode';
-
-import { extendObservable, computed } from 'mobx';
+import TreeStore from './TreeStore';
+import { extendObservable} from 'mobx';
 
 class NodeStore {
 	constructor () {
@@ -12,16 +12,31 @@ class NodeStore {
         	show: true,
     	    clickable: false,
     	    depth: 0,
+    	    isOnionSibling: false,
     	    minY: 0,
     	    maxY: 0,
             nodeX: 0,
+            get styleName(){
+            	if (this.show){
+            		return '';
+            	} else {
+            		return 'hidden';
+            	}
+            },
             get nodeY(){
                return (this.maxY+this.minY)/2;
             },
             get nodeRend(){
-                return (<TreeNode key={this.id*1000} circleX={this.nodeX} circleY={this.nodeY} circleR={10} label={this.name} />);
+                return (<TreeNode nodeId={this.id} styleName={this.styleName} clickable={this.clickable} circleX={this.nodeX} circleY={this.nodeY} circleR={10} label={this.name} />);
             }
     	});
+	}
+
+	nodeClicked(){
+        
+	}
+	toggleVisibility(){
+		this.show = !this.show;
 	}
 	initNode(node){
 		this.id = node.id;
@@ -34,6 +49,7 @@ class NodeStore {
 		this.nodeX = node.nodeX;
 		this.linksTo = node.linksTo;
 		this.linksArr = node.linksArr;
+		this.isOnionSibling = node.isOnionSibling ? node.isOnionSibling : false;
 	}
     changeNodeCoord(newCoordX, newCoordY) {
         this.xCoord = newCoordX;

@@ -14,9 +14,11 @@ class LinkStore {
             endX: 0,
             startY: 0,
             endY: 0,
+            get styler() {
+                return this.show? '':'hidden';
+            },
             get linkRend(){
-                let displayer = this.show ? 'block' : 'none';
-                return (<TreeLink key={this.rootId+"-"+this.endId} startX={this.startX} endX={this.endX} startY={this.startY} endY={this.endY} style={{"display": displayer,}} />);
+                return (<TreeLink styler={this.styler} key={this.rootId+"-"+this.endId} startX={this.startX} endX={this.endX} startY={this.startY} endY={this.endY} />);
             }
         });
     }
@@ -28,6 +30,9 @@ class LinkStore {
         this.endX = nodeTo.nodeX;
         this.startY = nodeFrom.nodeY;
         this.endY = nodeTo.nodeY;
+    }
+    toggleVisibility(){
+        this.show = !this.show;
     }
 }
 

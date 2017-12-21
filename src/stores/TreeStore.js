@@ -40,6 +40,38 @@ class TreeStore {
     	return maxDepth;
         
     }
+    printTest(){
+    	console.log("successss");
+    }
+    toggleVision(nodeId){
+    	let locked = [];
+    	this.linksTree[nodeId].map((item,ind)=>{
+            item.toggleVisibility();
+            this.toggleVisibility(item.endId,locked);
+    	});
+    	
+    }
+    toggleVisibility(nodeId, lockedId){
+    	let lock=lockedId;
+        let curNode=this.nodesTree.find(i=>(i.id==nodeId));
+        curNode.toggleVisibility();
+        let counter=this.linksTree[nodeId].length;
+
+    	this.linksTree[nodeId].map((item, ind)=>{
+    		if (curNode.isOnionSibling) {
+    			item.toggleVisibility();
+    			if(lock.includes(item.endId)){} else {
+    				console.log('hui');
+    				lock.push(item.endId);
+		    		this.toggleVisibility(item.endId,lock);
+    			}
+    		} else {
+    			item.toggleVisibility();
+    		this.toggleVisibility(item.endId,lock);
+    		}
+    		
+    	});
+    }
     pushNodeWithLinksToState(nodeId, tree, minY, maxY){
 
         let node = tree[nodeId];
@@ -66,7 +98,6 @@ class TreeStore {
     	if (succCount > 0) {
 	    	
 	    	if(onionCount > 0) {
-	    	    
 	    		let child = tree[node.linksTo[0]];
 	    		let childX = this.offX + (child.depth)*this.stepWidth;
     			let childY = nodY;
@@ -83,7 +114,7 @@ class TreeStore {
     			};
 
 	    		let nodes = node.onionArr.map((it, ind) => {
-	    	
+	    	        
 	    			let elem = tree[it];
 	    			let offY = (maxY-minY)/onionCount;
 	    			let minNY = ind*offY + minY;
@@ -101,6 +132,7 @@ class TreeStore {
 	                    nodeY: nY,
 	                    minY: minNY,
 	                    maxY: maxNY,
+	    			isOnionSibling: true
 	    			};
 
 	    			let curOni = new NodeStore();
