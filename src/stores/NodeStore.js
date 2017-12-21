@@ -5,6 +5,7 @@ import { extendObservable} from 'mobx';
 
 class NodeStore {
 	constructor () {
+        
 		extendObservable(this,{
 		    
 		    id: 0,
@@ -20,10 +21,7 @@ class NodeStore {
     	    parentY: 0,
 
             nodeX: 0,
-            /*get transor(){
-            	let trans = this.show ? `translate(${this.nodeX-this.parentX})` : `translate(${this.parentX-this.nodeX})`;
-            	return { webkitTransformOrigin: `${this.parentX} ${this.parentY} 0`, webkitTransform: `${trans}` }
-            },*/
+          
             get styleName(){
             	if (this.show){
             		return '';
@@ -47,9 +45,7 @@ class NodeStore {
     	});
 	}
 
-	nodeClicked(){
-        
-	}
+	
 
     nodeExpand(node){
     	
@@ -65,10 +61,7 @@ class NodeStore {
     	this.expanded = false;
     }
 
-	toggleVisibility(){
-
-		this.show = !this.show;
-	}
+	
 	makeVisible(node){
 		this.parentX = node.nodeX;
     	this.parentY = node.nodeY;
@@ -94,10 +87,7 @@ class NodeStore {
 		this.parentX = node.parentX ? node.parentX : 0;
 		this.parentY = node.parentX ? node.parentY : 0;
 	}
-    changeNodeCoord(newCoordX, newCoordY) {
-        this.xCoord = newCoordX;
-        this.yCoord = newCoordY;
-    }
+    
 }
 
 const nodeStore = new NodeStore();

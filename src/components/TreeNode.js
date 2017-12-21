@@ -5,15 +5,14 @@ import { inject } from 'mobx-react';
 
 
 class TreeNod extends Component {
+	
 	constructor(props){
 		super(props);
 		this.onClick = (data) => this.handleClick.bind(data, this);
-		this.props.treeStore.printTest();
 	}
 
 	handleClick(data, e){
 		let nodeId = data.props.nodeId;
-        console.log("nodeId="+nodeId);
         data.props.treeStore.nodeClicked(nodeId);
 	}
 	render(){

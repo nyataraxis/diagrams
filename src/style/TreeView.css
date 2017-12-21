@@ -1,18 +1,18 @@
 .tree-node {
-	-webkit-transition: all 0.4s;
-    -moz-transition: all 0.4s;
-    -ms-transition: all 0.4s;
-    -o-transition: all 0.4s;
-    transition: all 0.4s;
+	-webkit-transition: all 0.5s 0.1s;
+    -moz-transition: all 0.5s 0.1s;
+    -ms-transition: all 0.5s 0.1s;
+    -o-transition: all 0.5s 0.1s;
+    transition: all 0.5s 0.1s;
 }
 
 .tree-node_label{
 	opacity:1;
-	-webkit-transition: all 0.2s;
-    -moz-transition: all 0.2s;
-    -ms-transition: all 0.2s;
-    -o-transition: all 0.2s;
-    transition: all 0.2s;
+	-webkit-transition: all 0.5s 0.1s;
+    -moz-transition: all 0.5s 0.1s;
+    -ms-transition: all 0.5s 0.1s;
+    -o-transition: all 0.5s 0.1s;
+    transition: all 0.5s 0.1s;
 }
 
 .tree-node_item {
@@ -21,11 +21,11 @@
 	stroke-width: 4;
 	fill: yellow;
 	opacity: 1;
-	-webkit-transition: all 0.4s;
-    -moz-transition: all 0.4s;
-    -ms-transition: all 0.4s;
-    -o-transition: all 0.4s;
-    transition: all 0.4s;
+	-webkit-transition: all 0.5s 0.1s;
+    -moz-transition: all 0.5s 0.1s;
+    -ms-transition: all 0.5s 0.1s;
+    -o-transition: all 0.5s 0.1s;
+    transition: all 0.5s 0.1s;
 }
 
 .tree-node_item:hover {
@@ -36,14 +36,6 @@
 .tree-node_item:active {
     
 	stroke: green;
-
-}
-
-#hidden-node{
-    
-}
-
-#hidden-link{
 
 }
 
@@ -61,10 +53,10 @@
 	stroke: blue; 
 	stroke-width: 5;
 	fill: none;
-	-webkit-transition: all 0.4s;
-    -moz-transition: all 0.4s;
-    -ms-transition: all 0.4s;
-    -o-transition: all 0.4s;
-    transition: all 0.4s;
+	-webkit-transition: all 0.5s 0.1s;
+    -moz-transition: all 0.5s 0.1s;
+    -ms-transition: all 0.5s 0.1s;
+    -o-transition: all 0.5s 0.1s;
+    transition: all 0.5s 0.1s;
     
 }
