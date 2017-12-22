@@ -1,3 +1,3 @@
 # diagrams
 
-yarn install and yarn start
+`yarn install` and `yarn start`
