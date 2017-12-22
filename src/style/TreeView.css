@@ -17,9 +17,9 @@
 
 .tree-node_item {
 	
-	stroke: green;
+	stroke: rgba(0,0,255,0.7);
 	stroke-width: 4;
-	fill: yellow;
+	fill: rgba(0,0,255,0.5);
 	opacity: 1;
 	-webkit-transition: all 0.5s 0.1s;
     -moz-transition: all 0.5s 0.1s;
@@ -29,13 +29,13 @@
 }
 
 .tree-node_item:hover {
-	stroke: yellow;
-	fill: green;
+	fill: rgba(0,0,255,0.65);
 }
 
 .tree-node_item:active {
     
-	stroke: green;
+
+	fill: rgba(0,0,255,0.7);
 
 }
 
@@ -50,8 +50,8 @@
 
 .tree-link {
 	opacity: 1;
-	stroke: blue; 
-	stroke-width: 5;
+	stroke: rgba(0,0,255,0.5); 
+	stroke-width: 3;
 	fill: none;
 	-webkit-transition: all 0.5s 0.1s;
     -moz-transition: all 0.5s 0.1s;

@@ -41,12 +41,12 @@ class LinkStore {
             }
         });
     }
-    initLink(nodeFrom, nodeTo){
+    initLink(nodeFrom, nodeTo, nodeRadius){
         this.rootId = nodeFrom.id;
         this.endId = nodeTo.id;
         this.show = nodeTo.show;
-        this.startX = nodeFrom.nodeX;
-        this.endX = nodeTo.nodeX;
+        this.startX = nodeFrom.nodeX+nodeRadius;
+        this.endX = nodeTo.nodeX-nodeRadius;
         this.startY = nodeFrom.nodeY;
         this.endY = nodeTo.nodeY;
     }

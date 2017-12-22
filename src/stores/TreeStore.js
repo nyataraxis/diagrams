@@ -125,7 +125,7 @@ class TreeStore {
     		
     	});
     }
-    pushNodeWithLinksToState(nodeId, tree, minY, maxY/*, parentY*/){
+    pushNodeWithLinksToState(nodeId, tree, minY, maxY){
 
         let node = tree[nodeId];
         
@@ -141,9 +141,7 @@ class TreeStore {
     		nodeX: nodX,
     		nodeY: nodY,
     		minY: minY,
-    		maxY: maxY/*,
-    		parentX: node.depth ? (node.depth-1)*this.stepWidth : null,
-    		parentY: parentY*/
+    		maxY: maxY
     	};
 
     	let succCount = node.linksTo ? node.linksTo.length : 0;
@@ -201,12 +199,12 @@ class TreeStore {
 	    			this.nodesTree.push(curOni);
 
                     let curOniLink = new LinkStore();
-                    curOniLink.initLink(nodeProto, curOniProto);
+                    curOniLink.initLink(nodeProto, curOniProto,this.nodeRad);
     				this.linksTree[nodeProto.id].push(curOniLink);
     				
 
 	    			let oniRootLink = new LinkStore();
-	    			oniRootLink.initLink(curOniProto, childProto);
+	    			oniRootLink.initLink(curOniProto, childProto, this.nodeRad);
 	    			
 	    			this.linksTree[curOniProto.id].push(oniRootLink);
 
@@ -235,7 +233,7 @@ class TreeStore {
 		                    parentY: (minY+maxY)/2*/
                     	}
                     	let succNodeLink = new LinkStore();
-                    	succNodeLink.initLink(nodeProto, succProto);
+                    	succNodeLink.initLink(nodeProto, succProto,this.nodeRad);
 
                     	this.linksTree[node.id].push(succNodeLink); 
 
